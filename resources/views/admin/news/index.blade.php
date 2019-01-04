@@ -49,7 +49,8 @@
                                             <a href="{{ action('Admin\NewsController@edit', ['id' => $news->id]) }}">編集</a>
                                         </div>
                                         <div>
-                                            <a href="{{ action('Admin\NewsController@delete', ['id' => $news->id]) }}">削除</a>
+                                            {{--<a href="{{ action('Admin\NewsController@delete', ['id' => $news->id]) }}">削除</a>--}}
+                                            <a href="javascript:void(0);" onclick="delconfirm('{{ action('Admin\NewsController@delete', ['id' => $news->id]) }}'); return false;">削除</a>
                                         </div>
 
                                     </td>
@@ -62,4 +63,11 @@
             </div>
         </div>
     </div>
+    <script>
+      function delconfirm($url) {
+        if(window.confirm('本当に削除しますか？')) {
+        location.href = $url;
+        }
+      }
+    </script>
 @endsection

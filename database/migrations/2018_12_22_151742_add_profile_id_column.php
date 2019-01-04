@@ -13,11 +13,11 @@ class AddProfileIdColumn extends Migration
      */
     public function up()
     {
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->string('profile_image_path')->nullable();
-            $table->integer('user_id')->unsigned()->unique();
-            $table->foreign('user_id')->references('id')->on('users');
-        });
+//        Schema::table('profiles', function (Blueprint $table) {
+//            $table->string('profile_image_path')->nullable();
+//            $table->integer('user_id')->unsigned()->unique();
+//            $table->foreign('user_id')->references('id')->on('users');
+//        });
     }
 
     /**
@@ -27,9 +27,9 @@ class AddProfileIdColumn extends Migration
      */
     public function down()
     {
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn(['user_id', 'profile_image_path']);
-        });
+//        Schema::table('profiles', function (Blueprint $table) {
+//            $table->dropForeign(['user_id']);
+//            $table->dropColumn(['user_id', 'profile_image_path']);
+//        });
     }
 }

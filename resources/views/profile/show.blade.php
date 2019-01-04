@@ -10,12 +10,17 @@
             <div class="col-md-6">
               <div class="caption mx-auto">
                 <div class="image">
-                  @if ($headline->profile_image_path)
+                  {{--　松田変更ここから --}}
+                  {{--
+                    @if ($headline->profile_image_path)
                     <img src="{{ asset('storage/image/' . $headline->profile_image_path) }}">
                     @else
                     <img src="{{ asset('storage/image/' . 'no-image2.svg') }}">
 
-                  @endif
+                    @endif
+                  --}}
+                  <img src="{{ Utl::getImagePath($headline->profile_image_path) }}">
+                  {{--　松田変更ここまで --}}
                 </div>
               </div>
             </div>
@@ -52,12 +57,17 @@
                   </div>
                   </div>
                   <div class="image col-md-6 text-right mt-4">
+                  {{--　松田変更ここから --}}
+                  {{--
                   @if ($post->image_path)
                     <img src="{{ asset('storage/image/' . $post->image_path) }}">
                     @else
                     <img src="{{ asset('storage/image/' . 'no-image.svg') }}">
 
                   @endif
+                  --}}
+                  <img src="{{ Utl::getImagePath($post->image_path) }}">
+                  {{--　松田変更ここまで --}}
                   </div>
               </div>
             </div>

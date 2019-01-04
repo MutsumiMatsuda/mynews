@@ -13,9 +13,9 @@ class ChangeNewsTable extends Migration
      */
     public function up()
     {
-        Schema::table('news', function (Blueprint $table) {
-            $table->text('body')->change();
-        });
+//        Schema::table('news', function (Blueprint $table) {
+//            $table->text('body')->change();
+//        });
     }
 
     /**
@@ -25,8 +25,8 @@ class ChangeNewsTable extends Migration
      */
     public function down()
     {
-        Schema::table('news', function (Blueprint $table) {
-            $table->string('body', 255)->change();
-        });
+//        Schema::table('news', function (Blueprint $table) {
+//            $table->string('body', 255)->change();
+//        });
     }
 }

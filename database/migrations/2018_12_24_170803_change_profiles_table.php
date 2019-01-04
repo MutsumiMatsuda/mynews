@@ -13,10 +13,10 @@ class ChangeProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->text('introduction')->change();
-
-        });
+//        Schema::table('profiles', function (Blueprint $table) {
+//            $table->text('introduction')->change();
+//
+//        });
     }
 
     /**
@@ -26,8 +26,8 @@ class ChangeProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::table('profiles', function (Blueprint $table) {
-            $table->string('introduction', 255)->change();
-        });
+//        Schema::table('profiles', function (Blueprint $table) {
+//            $table->string('introduction', 255)->change();
+//        });
     }
 }

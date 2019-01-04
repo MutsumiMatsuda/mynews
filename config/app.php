@@ -174,7 +174,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        // 松田追加ここから
+        App\Providers\UtlServiceProvider::class,
+        // 松田追加ここまで
     ],
 
     /*
@@ -223,7 +225,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        // 松田追加ここから
+        'Utl' => App\Facades\Utl::class,
+        // 松田追加ここまで
     ],
 
 ];

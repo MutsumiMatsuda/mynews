@@ -10,12 +10,18 @@
             <div class="col-md-6">
               <div class="caption mx-auto">
                 <div class="image">
+                  {{--　松田変更ここから --}}
+                  {{--
                   @if ($headline->image_path)
+
                     <img src="{{ asset('storage/image/' . $headline->image_path) }}">
                     @else
                     <img src="{{ asset('storage/image/' . 'no-image.svg') }}">
 
                   @endif
+                  --}}
+                  <img src="{{ Utl::getImagePath($headline->image_path) }}">
+                  {{--　松田変更ここまで --}}
                 </div>
                 <div class="title p-2">
                   <h1>{{ str_limit($headline->title, 70) }}</h1>
@@ -54,12 +60,17 @@
                   </div>
                   </div>
                   <div class="image col-md-6 text-right mt-4">
+                  {{--　松田変更ここから --}}
+                  {{--　
                   @if ($post->image_path)
                     <img src="{{ asset('storage/image/' . $post->image_path) }}">
                     @else
                     <img src="{{ asset('storage/image/' . 'no-image.svg') }}">
 
                   @endif
+                  --}}
+                    <img src="{{ Utl::getImagePath($post->image_path) }}">
+                  {{--　松田変更ここまで --}}
                   </div>
               </div>
             </div>

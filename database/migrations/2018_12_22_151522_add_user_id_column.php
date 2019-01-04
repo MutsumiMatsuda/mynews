@@ -13,10 +13,10 @@ class AddUserIdColumn extends Migration
      */
     public function up()
     {
-        Schema::table('news', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->after('id');
-            $table->foreign('user_id')->references('id')->on('users');
-        });
+//        Schema::table('news', function (Blueprint $table) {
+//            $table->integer('user_id')->unsigned()->after('id');
+//            $table->foreign('user_id')->references('id')->on('users');
+//        });
 
     }
 
@@ -27,10 +27,10 @@ class AddUserIdColumn extends Migration
      */
     public function down()
     {
-        Schema::table('news', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
-        });
+//        Schema::table('news', function (Blueprint $table) {
+//            $table->dropForeign(['user_id']);
+//            $table->dropColumn('user_id');
+//        });
 
     }
 }

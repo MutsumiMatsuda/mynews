@@ -9,6 +9,7 @@ use App\UserHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Utl;
 
 class ProfileController extends Controller
 {
@@ -30,7 +31,10 @@ class ProfileController extends Controller
 
         // フォームから画像が送信されてきたら、保存して、$profile->profile_image_path に画像のパスを保存する
         if (isset($form['image'])) {
-            $path = $request->file('image')->store('public/image');
+            // 松田変更ここから
+            //$path = $request->file('image')->store('public/image');
+            $path =  parent::storeImage($request->file('image'));
+            // 松田変更ここまで
             $profile->profile_image_path = basename($path);
         } else {
             $profile->profile_image_path = null;
@@ -67,10 +71,19 @@ class ProfileController extends Controller
         $profile_form = $request->all();
 
         if ($request->remove == 'true') {
-            $profile_form['profile_image_path'] = null;
+            // 松田変更ここから
+            //$profile_form['profile_image_path'] = null;
+            // 画像を削除する
+            parent::deleteImage($profile->profile_image_path);
+            // プロフィールの画像名をno_imageに変更
+            $profile_form['profile_image_path'] = Utl::getNoImageFilename();
+            // 松田変更ここまで
         } elseif ($request->file('image')) {
 
-            $path = $request->file('image')->store('public/image');
+            // 松田変更ここから
+            //$path = $request->file('image')->store('public/image');
+            $path =  parent::swapImage($request->file('image'), $profile->profile_image_path);
+            // 松田変更ここまで
             $profile_form['profile_image_path'] = basename($path);
         } else {
             $profile_form['profile_image_path'] = $profile->profile_image_path;

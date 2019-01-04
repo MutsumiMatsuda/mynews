@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\News;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Utl; // 松田追加
 
 class NewsController extends Controller
 {
@@ -28,7 +29,10 @@ class NewsController extends Controller
 
         // フォームから画像が送信されてきたら、保存して、$news->image_path に画像のパスを保存する
         if (isset($form['image'])) {
-            $path = $request->file('image')->store('public/image');
+            // 松田変更ここから
+            //$path = $request->file('image')->store('public/image');
+            $path =  parent::s3Store($request->file('image'));
+            // 松田変更ここまで
             $news->image_path = basename($path);
         } else {
             $news->image_path = null;
@@ -74,7 +78,10 @@ class NewsController extends Controller
         if ($request->remove == 'true') {
             $news_form['image_path'] = null;
         } elseif ($request->file('image')) {
-            $path = $request->file('image')->store('public/image');
+            // 松田変更ここから
+            //$path = $request->file('image')->store('public/image');
+            $path =  parent::s3Store($request->file('image'));
+            // 松田変更ここまで
             $news_form['image_path'] = basename($path);
         } else {
             $news_form['image_path'] = $news->image_path;
@@ -97,6 +104,12 @@ class NewsController extends Controller
     {
         // 該当するNews Modelを取得
         $news = News::find($request->id);
+        // 松田変更ここから
+        // 画像が登録されていれば削除する
+        if (!Utl::isNullOrEmpty($news->image_path)) {
+          parent::s3Remove($news->image_path);
+        }
+        // 松田変更ここまで
         // 削除する
         $news->delete();
         return redirect('admin/news/');
