@@ -47,7 +47,7 @@ class Utl
   * @return 管理者でログインしているかの真偽値
   */
   public function isAdmin() {
-    return !self::isLogin() && 1 === Auth::id();
+    return self::isLogin() && 1 === Auth::id();
   }
 
   /**
@@ -90,7 +90,7 @@ class Utl
   public function getImagePath($filename) {
 
     if (self::isS3()) {
-      $ret = env('AWS_S3_URL') . '/' . env('IMAGE_URL_PREFIX') . '/' . ('' == $filename ? self::getNoImageFilename() : $filename);
+      $ret = env('AWS_S3_URL') . '/' . env('IMAGE_URL_PREFIX') . '/' . (self::isNullOrEmpty($filename) ? self::getNoImageFilename() : $filename);
     } else {
       $ret = asset('storage/image/' . $filename);
     }
