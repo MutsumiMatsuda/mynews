@@ -74,7 +74,7 @@
 }
 
 .posts .post .title {
-  font-size: 1.2em;
+  font-size: 1.3em;
   font-weight: 500;
   margin-bottom: 0;
 }
@@ -94,12 +94,18 @@
 }
 
 .posts .post .image img {
+  max-width: 250px;
+  width: 100%;
+}
+
+.profile-index .posts .post .image img {
   width: 250px;
 }
 
-@media (max-width: 768px) {
-  .posts .post .image img {
+@media (max-width: 992px) {
+  .profile-index .posts .post .image img {
     width: 100%;
+    max-width: initial;
   }
 }
 
@@ -139,4 +145,3 @@
   color: #555;
   margin-bottom: 0;
 }
-
