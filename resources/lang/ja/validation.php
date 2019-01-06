@@ -78,7 +78,8 @@ return [
     'max' => [
         'numeric' => 'The :attribute may not be greater than :max.',
         'file' => 'The :attribute may not be greater than :max kilobytes.',
-        'string' => 'The :attribute may not be greater than :max characters.',
+        'string' => ':attribute は :max 字以内にしてください。',
+        'text' => ':attribute は :max 字以内にしてください。',
         'array' => 'The :attribute may not have more than :max items.',
     ],
     'mimes' => 'The :attribute must be a file of type: :values.',
@@ -105,7 +106,8 @@ return [
     'size' => [
         'numeric' => 'The :attribute must be :size.',
         'file' => 'The :attribute must be :size kilobytes.',
-        'string' => 'The :attribute must be :size characters.',
+        'string' => ':attribute は :size 字以内にしてください。',
+        'text' => ':attribute は :size 字以内にしてください。',
         'array' => 'The :attribute must contain :size items.',
     ],
     'starts_with' => 'The :attribute must start with one of the following: :values',
@@ -148,6 +150,9 @@ return [
         'title' => 'タイトル',
         'body' => '本文',
         'name' => 'アカウント名',
+        'introduction' => '自己紹介',
+        'hobby' => '趣味',
+
     ],
 
 ];

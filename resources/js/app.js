@@ -31,3 +31,29 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app'
 });
+
+/**
+スマホ時でドロップダウン無効化
+ */
+
+var windowWidth = $(window).width();
+var windowSm = 768;
+if (windowWidth < windowSm) {
+    $("#dropdown").removeClass("dropdown-menu");
+} else {
+    $("#dropdown").addClass("dropdown-menu");
+}
+
+
+<script>
+    $(function(){
+        $(".btn-dell").click(function () {
+            if (confirm("本当に削除しますか？")) {
+                //そのままsubmit（削除）
+            } else {
+                //cancel
+                return false;
+            }
+        });
+    });
+  </script>

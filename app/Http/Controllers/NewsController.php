@@ -13,7 +13,7 @@ class NewsController extends Controller
         if ($cond_title != '') {
             $posts = News::where('title', $cond_title) . orderBy('created_at', 'desc')->paginate(5);
         } else {
-            $posts = News::orderBy('created_at', 'desc')->paginate(5);
+            $posts = News::orderBy('created_at', 'desc')->paginate(10);
 
         }
 

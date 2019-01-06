@@ -15,6 +15,7 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/front.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   </head>
   <body>
     <div id="app">
@@ -32,10 +33,10 @@
                                       <!-- Authentication Links -->
                                       {{-- ログインしていなかったらログイン画面へのリンクを表示 --}}
                         @guest
-                            <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">{{ __('ログイン') }}</a></li>
                                                         @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('新規登録') }}</a>
                                 </li>
                             @endif
                         {{-- ログインしていたらユーザー名とログアウトボタンを表示 --}}
@@ -45,9 +46,12 @@
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
- <a class="dropdown-item" href="{{ url('admin/news') }}">{{ __('投稿') }}</a>
- <a class="dropdown-item" href="{{ url('admin/profile/edit')}}?id={{Auth::user()->id}}">{{ __('登録情報変更') }}</a>
+ <div id="dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown">
+      @if(( Auth::user()->id ) === 9 )
+ <a class="dropdown-item" href="{{ url('/admin') }}">{{ __('ユーザー一覧') }}</a>
+     @endif
+ <a class="dropdown-item" href="{{ url('users/news') }}?id={{Auth::user()->id}}">{{ __('投稿') }}</a>
+ <a class="dropdown-item" href="{{ url('users/profile/edit')}}?id={{Auth::user()->id}}">{{ __('登録情報変更') }}</a>
  <a class="dropdown-item" href="{{ route('logout') }}"
      onclick="event.preventDefault();
      document.getElementById('logout-form').submit();">

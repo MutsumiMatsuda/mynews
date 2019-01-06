@@ -1,11 +1,11 @@
-@extends('layouts.admin')
+@extends('layouts.users')
 @section('title', 'ニュースの新規作成')
 @section('content')
   <div class="container">
     <div class="row">
       <div class="col-md-8 mx-auto">
         <h2 style="margin-bottom:30px;">ニュースの新規作成</h2>
-        <form action="{{ action('Admin\NewsController@create') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ action('Users\NewsController@create') }}" method="post" enctype="multipart/form-data">
 
         @if (count($errors) > 0)
         <ul>

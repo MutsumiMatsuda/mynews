@@ -18,12 +18,10 @@ class ProfileController extends Controller
 
         }
 
-        // $headline = Profile::find(Auth::user()->id);
-        // $headline = Profile::find(6);
-        // $headline = Profile::where('user_id', $request->id);
         $user_id_for_show = $request->id;
 
         $headline = Profile::find($request->id);
+
         return view('profile.show', ['user_id_for_show' => $user_id_for_show, 'headline' => $headline, 'posts' => $posts, 'cond_title' => $cond_title]);
     }
 

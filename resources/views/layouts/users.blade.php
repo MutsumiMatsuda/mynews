@@ -12,7 +12,7 @@
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
-
+        @yield('script')
         <!-- Fonts -->
         <link rel="dns-prefetch" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
@@ -44,20 +44,23 @@
                         <!-- Authentication Links -->
                         @guest
                             <li><a class="nav-link" href="{{ route('login') }}">{{ __('ログイン') }}</a></li>
-                        @else
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('新規登録') }}</a>
+                                </li>
+                            @endif                        @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
      <div id="dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown">
-              {{--松田変更ここから--}}
-               {{--@if(( Auth::user()->id ) === 9 )--}}
-              @if(Utl::isAdmin())
-              {{--松田変更ここまで--}}
+       {{--松田変更ここから--}}
+        {{--@if(( Auth::user()->id ) === 9 )--}}
+       @if(Utl::isAdmin())
+       {{--松田変更ここまで--}}
  <a class="dropdown-item" href="{{ url('/admin') }}">{{ __('ユーザー一覧') }}</a>
      @endif
-
  <a class="dropdown-item" href="{{ url('users/news') }}?id={{Auth::user()->id}}">{{ __('投稿') }}</a>
  <a class="dropdown-item" href="{{ url('users/profile/edit')}}?id={{Auth::user()->id}}">{{ __('登録情報変更') }}</a>
  <a class="dropdown-item" href="{{ route('logout') }}"

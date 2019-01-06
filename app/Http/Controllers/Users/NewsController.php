@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Users;
 
 use App\History;
 use App\Http\Controllers\Controller;
 use App\News;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Utl; // 松田追加
 
 class NewsController extends Controller
 {
     public function add()
     {
-        return view('admin.news.create');
+        return view('users.news.create');
     }
 
     public function create(Request $request)
@@ -31,7 +32,7 @@ class NewsController extends Controller
         if (isset($form['image'])) {
             // 松田変更ここから
             //$path = $request->file('image')->store('public/image');
-            $path =  parent::s3Store($request->file('image'));
+            $path =  parent::storeImage($request->file('image'));
             // 松田変更ここまで
             $news->image_path = basename($path);
         } else {
@@ -45,7 +46,7 @@ class NewsController extends Controller
         $news->fill($form);
         $news->save();
 
-        return redirect('admin/news/');
+        return redirect('news/' . $news->id . '/show');
     }
 
     public function index(Request $request)
@@ -53,20 +54,31 @@ class NewsController extends Controller
         $cond_title = $request->cond_title;
         if ($cond_title != '') {
             // 検索されたら検索結果を取得する
-            $posts = News::where('title', $cond_title)->get();
+            $posts = News::where('title', 'LIKE', "%{$cond_title}%")->get();
+        // 松田変更ここから
+        //} else if (Auth::user()->id === 9) {
+        } else if (Utl::isAdmin()) {
+        // 松田変更ここまで
+            $posts = News::where('user_id', $request->id)->get();
+            return view('users.news.index', ['posts' => $posts, 'cond_title' => $cond_title]);
         } else {
-            // それ以外はすべてのニュースを取得する
             $posts = News::all()->sortByDesc('created_at');
-
         }
-        return view('admin.news.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+        return view('users.news.index', ['posts' => $posts, 'cond_title' => $cond_title]);
     }
     public function edit(Request $request)
     {
         // News Modelからデータを取得する
         $news = News::find($request->id);
-
-        return view('admin.news.edit', ['news_form' => $news]);
+        // 松田変更ここから
+        // if (Auth::user()->id === 9) {
+        if (Utl::isAdmin()) {
+        // 松田変更ここまで
+            return view('users.news.edit', ['news_form' => $news]);
+        } else if (!$news || Auth::user()->id != $news->user_id) {
+            return redirect('users/news/');
+        }
+        return view('users.news.edit', ['news_form' => $news]);
     }
 
     public function update(Request $request)
@@ -76,11 +88,16 @@ class NewsController extends Controller
         $news_form = $request->all();
 
         if ($request->remove == 'true') {
+            // 松田追加ここから
+            if (!Utl::isNullOrEmpty($news->image_path)) {
+              parent::deleteImage($news->image_path);
+            }
+            // 松田追加ここまで
             $news_form['image_path'] = null;
         } elseif ($request->file('image')) {
             // 松田変更ここから
             //$path = $request->file('image')->store('public/image');
-            $path =  parent::s3Store($request->file('image'));
+            $path =  parent::swapImage($request->file('image'), $news->image_path);
             // 松田変更ここまで
             $news_form['image_path'] = basename($path);
         } else {
@@ -97,22 +114,23 @@ class NewsController extends Controller
         $history->edited_at = Carbon::now();
         $history->save();
 
-        return redirect('admin/news/');
+        return redirect('news/' . $news->id . '/show');
+
     }
 
     public function delete(Request $request)
     {
         // 該当するNews Modelを取得
         $news = News::find($request->id);
-        // 松田変更ここから
+        // 松田追加ここから
         // 画像が登録されていれば削除する
         if (!Utl::isNullOrEmpty($news->image_path)) {
-          parent::s3Remove($news->image_path);
+          parent::deleteImage($news->image_path);
         }
-        // 松田変更ここまで
+        // 松田追加ここまで
         // 削除する
         $news->delete();
-        return redirect('admin/news/');
+        return redirect('users/news/');
     }
 
 }

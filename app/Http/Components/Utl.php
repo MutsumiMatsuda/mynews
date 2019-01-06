@@ -1,5 +1,8 @@
 <?php
 namespace App\Http\Components;
+
+use Auth;
+
 /**
 * Utlファサードの処理実装クラス
 * 松田追加
@@ -28,6 +31,26 @@ class Utl
   }
 
   /**
+  * ログインしているかの真偽値を返す
+  *
+  * @param  void
+  * @return ログインしているかの真偽値
+  */
+  public function isLogin() {
+    return Auth::check();
+  }
+
+  /**
+  * 管理者でログインしているかの真偽値を返す
+  *
+  * @param  void
+  * @return 管理者でログインしているかの真偽値
+  */
+  public function isAdmin() {
+    return !self::isLogin() && 1 === Auth::id();
+  }
+
+  /**
   * 画像無しの場合のファイル名を取得
   *
   * @param  void
@@ -41,8 +64,7 @@ class Utl
   * 画像無しの場合のファイル名かの真偽値を返す
   *
   * @param  画像ファイル名
-  * @return AWS S3 の画像ファイルへのパス
-  *         画像ファイル名が空の場合は、画像無しのファイルパスを返す
+  * @return 画像無しの場合のファイル名かの真偽値
   */
   public function isNoImage($filename) {
     return self::isSameStr(self::getNoImageFilename(), $filename);
@@ -52,7 +74,7 @@ class Utl
   * StorageTypeがs3であるかの真偽値を返す
   *
   * @param  void
-  * @return 文字列が等価ならtrue、それ以外の場合はfalse
+  * @return StorageTypeがs3であるかの真偽値
   */
   public function isS3() {
     return self::isSameStr(env('FILESYSTEM_DRIVER'), env('FILESYSTEM_DRIVER_TYPE_S3'));
@@ -73,5 +95,42 @@ class Utl
       $ret = asset('storage/image/' . $filename);
     }
     return $ret;
+  }
+
+  /**
+  * JavaScriptによる確認画面付きの<a />タグを生成する
+  * putComfirmJsとペアで使うことで、画面に確認画面付きのリンクを実装する
+  *
+  * @param $cssClass:スタイルシートのクラス名
+  * @param $funcName:JavaScript関数名
+  * @param $url:OKボタンで遷移するurl
+  * @param <a />タグの表示ラベル
+  * @return void
+  */
+  public function confirmATag($cssClass, $funcName, $url, $lavel) {
+      $aTag = "<a ";
+      if (!self::isNullOrEmpty($cssClass)) {
+        $aTag .= "class=\"" . $cssClass . "\" ";
+      }
+      $aTag .= "href=\"javascript:void(0);\"" . " onclick=\"" . $funcName . "('" . $url . "'); return false;\">" . $lavel . "</a>\n";
+      echo $aTag;
+  }
+
+  /**
+  * 確認画面を表示するJavaScriptを画面に出力する
+  * confirmATagとペアで使うことで、画面に確認画面付きのリンクを実装する
+  *
+  * @param  $funcName:JavaScript関数名
+  * @param  $msg:確認メッセージ
+  * @return void
+  */
+  public function putConfirmJs($funcName, $msg) {
+    $script =
+      'function ' . $funcName . "(\$url) {\n" .
+    "    if(window.confirm('" . $msg . "')) {\n" .
+    "      location.href = \$url;\n" .
+    "    }\n" .
+    "  }\n";
+    echo $script;
   }
 }

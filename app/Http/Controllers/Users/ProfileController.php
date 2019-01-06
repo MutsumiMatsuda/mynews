@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use App\Profile;
@@ -9,56 +9,55 @@ use App\UserHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Utl;
 
 class ProfileController extends Controller
 {
     public function add()
     {
-        return view('admin.profile.create');
+        return view('users.profile.create');
     }
 
-    public function create(Request $request)
-    {
+    // public function create(Request $request)
+    // {
 
-        // Varidationを行う
-        $this->validate($request, Profile::$rules);
+    //     // Varidationを行う
+    //     $this->validate($request, Profile::$rules);
 
-        $profile = new Profile;
-        $profile->profile_id = $request->user()->id;
+    //     $profile = new Profile;
+    //     $profile->profile_id = $request->user()->id;
 
-        $form = $request->all();
+    //     $form = $request->all();
 
-        // フォームから画像が送信されてきたら、保存して、$profile->profile_image_path に画像のパスを保存する
-        if (isset($form['image'])) {
-            // 松田変更ここから
-            //$path = $request->file('image')->store('public/image');
-            $path =  parent::storeImage($request->file('image'));
-            // 松田変更ここまで
-            $profile->profile_image_path = basename($path);
-        } else {
-            $profile->profile_image_path = null;
-        }
+    //     // フォームから画像が送信されてきたら、保存して、$profile->profile_image_path に画像のパスを保存する
+    //     if (isset($form['image'])) {
+    //         $path = $request->file('image')->store('public/image');
+    //         $profile->profile_image_path = basename($path);
+    //     } else {
+    //         $profile->profile_image_path = null;
+    //     }
 
-        // フォームから送信されてきた_tokenを削除する
-        unset($form['_token']);
-        unset($form['image']);
+    //     // フォームから送信されてきた_tokenを削除する
+    //     unset($form['_token']);
+    //     unset($form['image']);
 
-        // データベースに保存する
-        $profile->fill($form);
-        $profile->save();
+    //     // データベースに保存する
+    //     $profile->fill($form);
+    //     $profile->save();
 
-        return redirect('profile/show');
-    }
+    //     return redirect('profile/show');
+    // }
 
     public function edit(Request $request)
     {
         // Profile Modelからデータを取得する
 
-        $user = User::find(Auth::user()->id);
-
-        return view('admin.profile.edit', ['user' => $user]);
-
+        $user = User::find($request->id);
+        if (Auth::user()->id === 9) {
+            return view('users.profile.edit', ['user' => $user]);
+        } else if (Auth::user()->id != $user->user_id) {
+            $user = User::find(Auth::user()->id);
+        }
+        return view('users.profile.edit', ['user' => $user]);
     }
 
     public function update(Request $request)
@@ -73,7 +72,7 @@ class ProfileController extends Controller
         if ($request->remove == 'true') {
             // 松田変更ここから
             //$profile_form['profile_image_path'] = null;
-            // 画像を削除する
+            // 画像を削除する(画像無しのファイルは削除されない)
             parent::deleteImage($profile->profile_image_path);
             // プロフィールの画像名をno_imageに変更
             $profile_form['profile_image_path'] = Utl::getNoImageFilename();
@@ -109,7 +108,7 @@ class ProfileController extends Controller
         $userhistory->edited_at = Carbon::now();
         $userhistory->save();
 
-        return redirect('profile/show' . $profile->id);
+        return redirect('profile/' . $profile->id . '/show');
     }
 
 }
