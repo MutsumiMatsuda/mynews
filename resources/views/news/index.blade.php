@@ -22,7 +22,7 @@
                   --}}
                   <img src="{{ Utl::getImagePath($headline->image_path) }}">
                   {{--　松田変更ここまで --}}
-                </div>
+                </figure>
                 <div class="title p-2">
                   <h1>{{ str_limit($headline->title, 70) }}</h1>
                 </div>
@@ -42,7 +42,7 @@
       @endif
       <hr color="#c0c0c0">
       <div class="row">
-        <article class="posts col-md-8 mx-auto mt-3">
+        <div class="posts col-md-8 mx-auto mt-3">
           @foreach($posts as $post)
             <article class="post">
               <div class="row reverse">

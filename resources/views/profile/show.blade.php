@@ -1,7 +1,7 @@
 @extends('layouts.front')
 
 @section('content')
-  <div class="container">
+  <div class="container profile-index">
     <hr color="#c0c0c0">
     @if (!is_null($headline))
       <div class="row">
