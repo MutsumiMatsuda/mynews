@@ -75,7 +75,7 @@ class RegisterController extends Controller
         $profile_form->name = $user->name;
         $profile_form->gender = "秘密";
         $profile_form->hobby = "秘密";
-        $profile_form->profile_image_path = 'no-image.png';
+        $profile_form->profile_image_path = 'no-image2.png';
         $profile_form->user_id = $user->id;
         $profile_form->save();
 

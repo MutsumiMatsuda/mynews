@@ -61,6 +61,16 @@ class Utl
   }
 
   /**
+  * 画像無しの場合のファイル名を取得
+  *
+  * @param  void
+  * @return 画像無しの場合のファイル名
+  */
+  public function getNoImage2Filename() {
+    return env('NO_IMAGE_FILENAME2');
+  }
+
+  /**
   * 画像無しの場合のファイル名かの真偽値を返す
   *
   * @param  画像ファイル名
@@ -91,6 +101,23 @@ class Utl
 
     if (self::isS3()) {
       $ret = env('AWS_S3_URL') . '/' . env('IMAGE_URL_PREFIX') . '/' . (self::isNullOrEmpty($filename) ? self::getNoImageFilename() : $filename);
+    } else {
+      $ret = asset('storage/image/' . $filename);
+    }
+    return $ret;
+  }
+
+  /**
+  * 画像へのフルパス取得
+  *
+  * @param  画像ファイル名
+  * @return 画像ファイルへのフルパス
+  *         画像ファイル名が空の場合は、画像無しのファイルパスを返す
+  */
+  public function getProfileImagePath($filename) {
+
+    if (self::isS3()) {
+      $ret = env('AWS_S3_URL') . '/' . env('IMAGE_URL_PREFIX') . '/' . (self::isNullOrEmpty($filename) ? self::getNoImage2Filename() : $filename);
     } else {
       $ret = asset('storage/image/' . $filename);
     }
