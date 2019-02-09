@@ -93,7 +93,7 @@ class NewsController extends Controller
               parent::deleteImage($news->image_path);
             }
             // 松田追加ここまで
-            $news_form['image_path'] = null;
+            $news_form['image_path'] = Utl::getNoNewsImgFileName();
         } elseif ($request->file('image')) {
             // 松田変更ここから
             //$path = $request->file('image')->store('public/image');

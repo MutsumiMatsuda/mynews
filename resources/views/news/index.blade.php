@@ -11,16 +11,7 @@
               <div class="caption mx-auto">
                 <figure class="image">
                   {{--　松田変更ここから --}}
-                  {{--
-                  @if ($headline->image_path)
-
-                    <img src="{{ asset('storage/image/' . $headline->image_path) }}">
-                    @else
-                    <img src="{{ asset('storage/image/' . 'no-image.png') }}">
-
-                  @endif
-                  --}}
-                  <img src="{{ Utl::getImagePath($headline->image_path) }}">
+                  <img src="{{ Utl::getNewsImagePath($headline->image_path) }}">
                   {{--　松田変更ここまで --}}
                 </figure>
                 <div class="title p-2">
@@ -48,15 +39,7 @@
               <div class="row reverse">
                 <figure class="image col-md-6 text-right mt-4">
                   {{--　松田変更ここから --}}
-                  {{--　
-                  @if ($post->image_path)
-                    <img src="{{ asset('storage/image/' . $post->image_path) }}">
-                    @else
-                    <img src="{{ asset('storage/image/' . 'no-image.png') }}">
-
-                  @endif
-                  --}}
-                    <img src="{{ Utl::getImagePath($post->image_path) }}">
+                    <img src="{{ Utl::getNewsImagePath($post->image_path) }}">
                   {{--　松田変更ここまで --}}
                 </figure>
                 <div class="text col-md-6">

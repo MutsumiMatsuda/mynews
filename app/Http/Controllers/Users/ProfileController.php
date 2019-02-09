@@ -18,48 +18,15 @@ class ProfileController extends Controller
         return view('users.profile.create');
     }
 
-    // public function create(Request $request)
-    // {
-
-    //     // Varidationを行う
-    //     $this->validate($request, Profile::$rules);
-
-    //     $profile = new Profile;
-    //     $profile->profile_id = $request->user()->id;
-
-    //     $form = $request->all();
-
-    //     // フォームから画像が送信されてきたら、保存して、$profile->profile_image_path に画像のパスを保存する
-    //     if (isset($form['image'])) {
-    //         $path = $request->file('image')->store('public/image');
-    //         $profile->profile_image_path = basename($path);
-    //     } else {
-    //         $profile->profile_image_path = null;
-    //     }
-
-    //     // フォームから送信されてきた_tokenを削除する
-    //     unset($form['_token']);
-    //     unset($form['image']);
-
-    //     // データベースに保存する
-    //     $profile->fill($form);
-    //     $profile->save();
-
-    //     return redirect('profile/show');
-    // }
-
     public function edit(Request $request)
     {
-        // Profile Modelからデータを取得する
-
         // 松田変更
-        //$user = User::find($request->id);
         $id = 0;
         //if (Auth::user()->id === 9) {
         if (Utl::isAdmin()) {
             $id = $request->id;
         } else if (Utl::isLogin()) {
-            $id = $user->user_id;
+            $id = Auth::id();
         }
 
         if (0 != $id) {
@@ -86,7 +53,7 @@ class ProfileController extends Controller
             // 画像を削除する(画像無しのファイルは削除されない)
             parent::deleteImage($profile->profile_image_path);
             // プロフィールの画像名をno_imageに変更
-            $profile_form['profile_image_path'] = Utl::getNoImageFilename();
+            $profile_form['profile_image_path'] = Utl::getNoProfileImgFileName();
             // 松田変更ここまで
         } elseif ($request->file('image')) {
 
@@ -101,6 +68,7 @@ class ProfileController extends Controller
 
         unset($profile_form['_token']);
         unset($profile_form['image']);
+        unset($profile_form['profile_id']);
         unset($profile_form['remove']);
 
         $profile->fill($profile_form)->save();

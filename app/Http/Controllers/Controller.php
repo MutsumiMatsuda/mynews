@@ -22,7 +22,7 @@ class Controller extends BaseController
   */
   protected function isNoImage($filename) {
 
-    return Utl::isNullOrEmpty($filename) || (0 == strcmp(env('NO_IMAGE_FILENAME'), $filename));
+    return Utl::isNullOrEmpty($filename) || Utl::isSameStr(Utl::getNoNewsImgFileName(), $filename) || Utl::isSameStr(Utl::getNoProfileImgFileName(), $filename);
   }
 
   /**

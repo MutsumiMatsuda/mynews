@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+　@extends('layouts.admin')
 @section('title', 'ユーザーの一覧')
 
 @section('content')
@@ -40,12 +40,7 @@
                                     <th>{{ $user->user_id }}</th>
 
                                     <td class="image">
-                                    @if ($user->profile_image_path)
-                                        <img style="width:100px;" src="{{ asset('storage/image/' . $user->profile_image_path) }}">
-                                        @else
-                                        <img style="width:100px;" src="{{ asset('storage/image/' . 'no-image2.png') }}">
-
-                                    @endif
+                                      <img style="width:100px;" src="{{ Utl::getProfileImagePath($user->profile_image_path) }}">
                                     </td>
 
 

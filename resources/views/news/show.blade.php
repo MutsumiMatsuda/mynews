@@ -13,8 +13,7 @@
     <figure style="margin:10px 0 40px;" >
     @if ($post->image_path)
       {{--松田変更ここから--}}
-      {{--<img style="width:100%; height:auto;" src="{{ asset('storage/image/' . $post->image_path) }}">--}}
-      <img style="width:100%; height:auto;" src="{{ Utl::getImagePath($post->image_path) }}">
+      <img style="width:100%; height:auto;" src="{{ Utl::getNewsImagePath($post->image_path) }}">
       {{--松田変更ここまで--}}
     @endif
 </figure>
