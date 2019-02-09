@@ -175,7 +175,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         // 松田追加ここから
+        // utility
         App\Providers\UtlServiceProvider::class,
+        // validator
+        App\Providers\ValidatorExServiceProvider::class,
         // 松田追加ここまで
     ],
 

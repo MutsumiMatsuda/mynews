@@ -2,6 +2,7 @@
 namespace App\Http\Components;
 
 use Auth;
+use \App\User;
 
 /**
 * Utlファサードの処理実装クラス
@@ -47,7 +48,11 @@ class Utl
   * @return 管理者でログインしているかの真偽値
   */
   public function isAdmin() {
-    return self::isLogin() && 1 === Auth::id();
+    $ret = false;
+    if (self::isLogin()) {
+      $ret = User::find(Auth::id())->admin;
+    }
+    return $ret;
   }
 
   /**

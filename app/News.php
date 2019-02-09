@@ -9,8 +9,8 @@ class News extends Model
     protected $guarded = array('id');
 
     public static $rules = array(
-        'title' => 'required|max:100',
-        'body' => 'required|max:10000',
+        'title' => 'required|max:100|ngword',
+        'body' => 'required|max:1000|ngword',
     );
     public function histories()
     {

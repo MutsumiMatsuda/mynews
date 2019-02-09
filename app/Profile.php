@@ -8,9 +8,9 @@ class Profile extends Model
 {
     protected $guarded = array('id');
     public static $rules = array(
-        'name' => 'required|max:50',
-        'hobby' => 'max:200',
-        'introduction' => 'max:400',
+        'name' => 'required|max:50|ngword',
+        'hobby' => 'max:200|ngword',
+        'introduction' => 'max:400|ngword',
 
     );
     public function user_histories()

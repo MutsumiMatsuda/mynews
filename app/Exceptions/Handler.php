@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -44,8 +45,60 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Exception $e)
     {
-        return parent::render($request, $exception);
+      if ($e instanceof ModelNotFoundException) {
+          $e = new NotFoundHttpException($e->getMessage(), $e);
+      }
+
+      return parent::render($request, $e);
+    }
+
+    /**
+     * render HttpException page
+     * エラーページの共通化
+     *
+     * @param  \Symfony\Component\HttpKernel\Exception\HttpException  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function renderHttpException(HttpException $e)
+    {
+      $status = $e->getStatusCode();
+      $message = $e->getMessage();
+      if (! $message) {
+          switch ($status) {
+              case 400:
+                  $message = 'リクエストが不正です';
+                  break;
+              case 401:
+                  $message = '認証に失敗しました';
+                  break;
+              case 403:
+                  $message = 'アクセス権がありません';
+                  break;
+              case 404:
+                  $message = 'お探しのページが見つかりません';
+                  break;
+              case 408:
+                  $message = 'タイムアウトです';
+                  break;
+              case 414:
+                  $message = 'リクエストURIが長すぎます';
+                  break;
+              case 419:
+                  $message = '不正なリクエストです';
+                  break;
+              case 500:
+                  $message = '不明なエラーです';
+                  break;
+              case 503:
+                  $message = 'Service Unavailable';
+                  break;
+              default:
+                  $message = 'エラーです';
+                  break;
+          }
+      }
+      return response()->view("errors.common", ['exception' => $e, 'message' => $message, 'status' => $status], $status);
     }
 }
