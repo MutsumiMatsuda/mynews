@@ -179,6 +179,7 @@ return [
         App\Providers\UtlServiceProvider::class,
         // validator
         App\Providers\ValidatorExServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
         // 松田追加ここまで
     ],
 
@@ -230,6 +231,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // 松田追加ここから
         'Utl' => App\Facades\Utl::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
         // 松田追加ここまで
     ],
 

@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="login-box card">
-                    <div class="login-header card-header mx-auto">{{ __('Login') }}</div>
+                    <div class="login-header card-header mx-auto">{{ __('messages.Login') }}</div>
 
                     <div class="login-body card-body">
                         <form method="POST" action="{{ route('login') }}">

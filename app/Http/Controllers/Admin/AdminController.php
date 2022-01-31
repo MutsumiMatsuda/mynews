@@ -15,8 +15,8 @@ class AdminController extends Controller
         $cond_title = $request->cond_title;
         if ($cond_title != '') {
             $users = Profile::where('name', $cond_title)->get();
-        } else if (Auth::user()->id != 9) {
-            return redirect('/');
+        //} else if (Auth::user()->id != 9) {
+            //return redirect('/');
         } else {
             $users = Profile::all()->sortByDesc('created_at');
         }
